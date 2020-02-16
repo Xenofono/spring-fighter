@@ -30,10 +30,10 @@ public class FighterServiceImpl implements FighterService {
 
     public Fighter findById(String id){
         int convertedId = stringIdToInt(id);
-        FighterEntity entity = fighterRepository.findById(convertedId)
+        return fighterRepository.findById(convertedId)
+                .map(this::entityToFighter)
                 .orElseThrow(() -> new FighterNotFoundException("Hittade inte den fightern"));
 
-        return entityToFighter(entity);
     }
 
     private Fighter entityToFighter(FighterEntity entity){
