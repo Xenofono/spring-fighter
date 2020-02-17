@@ -3,6 +3,7 @@ package com.fighter.demo;
 import lombok.Data;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -10,36 +11,33 @@ public class Tournament {
 
     private String id;
     private List<Fighter> allFighters;
-    private List<Fighter> fightersRemaining;
+    private LinkedList<Fighter> fightersRemaining;
     private int winnerId;
 
     public Tournament(String id, List<Fighter> fightersInTournament) {
         this.id = id;
         this.allFighters = new ArrayList<>(fightersInTournament);
         Collections.shuffle(this.allFighters);
-        this.fightersRemaining = new ArrayList<>(allFighters);
+        this.fightersRemaining = new LinkedList<>(allFighters);
     }
 
     public Fighter fight(){
         Fighter fighter1 = this.fightersRemaining.get(0);
         Fighter fighter2 = this.fightersRemaining.get(1);
 
-        Fighter winner;
         if(Math.random()<0.5){
             fightersRemaining.remove(fighter2);
-            winner = fighter1;
         }
         else{
             fightersRemaining.remove(fighter1);
-            winner = fighter2;
         }
-        fightersRemaining.set(fightersRemaining.size()-1, winner);
+        fightersRemaining.addLast(fightersRemaining.removeFirst());
 
         if(fightersRemaining.size() == 1){
             tournamentOver();
             return null;
         }
-        return winner;
+        return fightersRemaining.getLast();
     }
 
     private void tournamentOver(){
