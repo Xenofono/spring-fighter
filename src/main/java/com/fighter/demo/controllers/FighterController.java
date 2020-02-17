@@ -1,6 +1,6 @@
 package com.fighter.demo.controllers;
 
-import com.fighter.demo.models.Fighter;
+import com.fighter.demo.models.dto.Fighter;
 import com.fighter.demo.service.FighterService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

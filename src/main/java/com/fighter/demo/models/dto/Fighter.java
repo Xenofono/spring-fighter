@@ -1,4 +1,4 @@
-package com.fighter.demo.models;
+package com.fighter.demo.models.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

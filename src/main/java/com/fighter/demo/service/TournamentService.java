@@ -1,8 +1,8 @@
 package com.fighter.demo.service;
 
 import com.fighter.demo.entities.TournamentEntity;
-import com.fighter.demo.models.Fighter;
-import com.fighter.demo.models.Tournament;
+import com.fighter.demo.models.dto.Fighter;
+import com.fighter.demo.models.dto.Tournament;
 
 public interface TournamentService {
 

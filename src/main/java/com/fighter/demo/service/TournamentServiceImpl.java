@@ -1,7 +1,7 @@
 package com.fighter.demo.service;
 
-import com.fighter.demo.models.Fighter;
-import com.fighter.demo.models.Tournament;
+import com.fighter.demo.models.dto.Fighter;
+import com.fighter.demo.models.dto.Tournament;
 import com.fighter.demo.entities.TournamentEntity;
 import com.fighter.demo.exception.TournamentNotFoundException;
 import com.fighter.demo.repositories.TournamentRepository;
@@ -27,10 +27,10 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public Tournament newTournament() {
         String newId = Tournament.randomId();
-        while(tournamentCache.containsKey(newId)){
+        while(tournamentCache.containsKey(newId) || tournamentRepository.findById(newId).isPresent()){
             newId = Tournament.randomId();
         }
-        Tournament newTournament = new Tournament(newId, fighterService.findAll());
+        Tournament newTournament = new Tournament(newId, fighterService);
         tournamentCache.put(newId, newTournament);
         return newTournament;
     }

@@ -2,7 +2,7 @@ package com.fighter.demo.service;
 
 
 
-import com.fighter.demo.models.Fighter;
+import com.fighter.demo.models.dto.Fighter;
 import com.fighter.demo.entities.FighterEntity;
 import com.fighter.demo.exception.FighterNotFoundException;
 import com.fighter.demo.repositories.FighterRepository;
@@ -37,11 +37,23 @@ public class FighterServiceImpl implements FighterService {
 
     }
 
+    @Override
+    public void save(Fighter fighter) {
+        FighterEntity entityToUpdate = fighterToEntity(fighter);
+        fighterRepository.save(entityToUpdate);
+    }
+
     private Fighter entityToFighter(FighterEntity entity){
         Fighter fighter = new Fighter();
         BeanUtils.copyProperties(entity, fighter);
         fighter.calculateHealth();
         return fighter;
+    }
+
+    private FighterEntity fighterToEntity(Fighter fighter){
+        FighterEntity entity = new FighterEntity();
+        BeanUtils.copyProperties(fighter, entity);
+        return entity;
     }
 
     private int stringIdToInt(String id){

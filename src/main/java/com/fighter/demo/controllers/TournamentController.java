@@ -1,8 +1,10 @@
 package com.fighter.demo.controllers;
 
 import com.fighter.demo.entities.TournamentEntity;
-import com.fighter.demo.models.Fighter;
-import com.fighter.demo.models.Tournament;
+import com.fighter.demo.models.dto.Fighter;
+import com.fighter.demo.models.dto.Tournament;
+import com.fighter.demo.models.dto.TournamentConverter;
+import com.fighter.demo.models.response.TournamentResponse;
 import com.fighter.demo.service.TournamentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +22,15 @@ public class TournamentController {
     }
 
     @GetMapping("/new")
-    public ResponseEntity<Tournament> startNewTournament(){
-        return new ResponseEntity<>(tournamentService.newTournament(), HttpStatus.OK);
+    public ResponseEntity<TournamentResponse> startNewTournament(){
+        TournamentResponse response = TournamentConverter.tournamentToResponse(tournamentService.newTournament());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tournament> seeTournament(@PathVariable String id){
-        return new ResponseEntity<>(tournamentService.tournamentStatus(id), HttpStatus.OK);
+    public ResponseEntity<TournamentResponse> seeTournament(@PathVariable String id){
+        TournamentResponse response = TournamentConverter.tournamentToResponse(tournamentService.tournamentStatus(id));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/record/{id}")
