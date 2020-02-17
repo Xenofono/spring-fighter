@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 public class FighterController {
 
-    FighterService fighterService;
+    private FighterService fighterService;
 
     public FighterController(FighterService fighterService) {
         this.fighterService = fighterService;

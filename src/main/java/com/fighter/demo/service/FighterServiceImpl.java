@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class FighterServiceImpl implements FighterService {
 
 
-    FighterRepository fighterRepository;
+    private FighterRepository fighterRepository;
 
     public FighterServiceImpl(FighterRepository fighterRepository){
         this.fighterRepository = fighterRepository;
@@ -33,7 +33,7 @@ public class FighterServiceImpl implements FighterService {
         int convertedId = stringIdToInt(id);
         return fighterRepository.findById(convertedId)
                 .map(this::entityToFighter)
-                .orElseThrow(() -> new FighterNotFoundException("Hittade inte den fightern"));
+                .orElseThrow(FighterNotFoundException::new);
 
     }
 
@@ -48,7 +48,7 @@ public class FighterServiceImpl implements FighterService {
         try{
             return Integer.parseInt(id);
         } catch (NumberFormatException e) {
-            throw new FighterNotFoundException("Felaktigt idformat, bara nummer godtas");
+            throw new FighterNotFoundException();
         }
     }
 }

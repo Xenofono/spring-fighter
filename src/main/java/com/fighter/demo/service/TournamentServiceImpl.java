@@ -38,19 +38,19 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public Tournament tournamentStatus(String id) {
         return Optional.ofNullable(tournamentCache.get(id))
-                .orElseThrow(() -> new TournamentNotFoundException("Ingen sån turnering hittades"));
+                .orElseThrow(TournamentNotFoundException::new);
     }
 
     @Override
     public TournamentEntity getOldTournament(String id) {
         return tournamentRepository.findById(id)
-                .orElseThrow(() -> new TournamentNotFoundException("Ingen sån turnering hittades"));
+                .orElseThrow(TournamentNotFoundException::new);
     }
 
     @Override
     public Fighter fight(String id) {
         Tournament tournament = Optional.ofNullable(tournamentCache.get(id))
-                .orElseThrow(() -> new TournamentNotFoundException("Ingen sån turnering hittades"));
+                .orElseThrow(TournamentNotFoundException::new);
 
         if(tournament.getFightersRemaining().size() > 2){
             return tournament.fight();
