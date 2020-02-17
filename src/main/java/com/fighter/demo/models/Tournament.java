@@ -1,4 +1,4 @@
-package com.fighter.demo;
+package com.fighter.demo.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,12 +33,9 @@ public class Tournament {
         else{
             fightersRemaining.remove(fighter1);
         }
-        fightersRemaining.addLast(fightersRemaining.removeFirst());
 
-        if(fightersRemaining.size() == 1){
-            tournamentOver();
-            return null;
-        }
+        if(fightersRemaining.size() == 1) tournamentOver();
+
         return fightersRemaining.getLast();
     }
 

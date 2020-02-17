@@ -1,13 +1,10 @@
 package com.fighter.demo.service;
 
-import com.fighter.demo.Fighter;
-import com.fighter.demo.Tournament;
+import com.fighter.demo.models.Fighter;
+import com.fighter.demo.models.Tournament;
 import com.fighter.demo.entities.TournamentEntity;
-import com.fighter.demo.exception.TournamentEndedException;
 import com.fighter.demo.exception.TournamentNotFoundException;
 import com.fighter.demo.repositories.TournamentRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -45,6 +42,12 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
+    public TournamentEntity getOldTournament(String id) {
+        return tournamentRepository.findById(id)
+                .orElseThrow(() -> new TournamentNotFoundException("Ingen sån turnering hittades"));
+    }
+
+    @Override
     public Fighter fight(String id) {
         Tournament tournament = Optional.ofNullable(tournamentCache.get(id))
                 .orElseThrow(() -> new TournamentNotFoundException("Ingen sån turnering hittades"));
@@ -56,6 +59,7 @@ public class TournamentServiceImpl implements TournamentService {
             Fighter winner = tournament.fight();
             saveTournament(tournament);
             tournamentCache.remove(id);
+            System.out.println(winner);
             return winner;
         }
     }

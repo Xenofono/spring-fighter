@@ -1,7 +1,6 @@
 package com.fighter.demo.service;
 
-import com.fighter.demo.Fighter;
-import org.springframework.stereotype.Service;
+import com.fighter.demo.models.Fighter;
 
 import java.util.List;
 

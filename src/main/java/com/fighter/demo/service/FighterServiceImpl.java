@@ -2,7 +2,7 @@ package com.fighter.demo.service;
 
 
 
-import com.fighter.demo.Fighter;
+import com.fighter.demo.models.Fighter;
 import com.fighter.demo.entities.FighterEntity;
 import com.fighter.demo.exception.FighterNotFoundException;
 import com.fighter.demo.repositories.FighterRepository;
