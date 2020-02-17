@@ -1,7 +1,7 @@
 package com.fighter.demo.controllers;
 
 import com.fighter.demo.Fighter;
-import com.fighter.demo.FighterService;
+import com.fighter.demo.service.FighterService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

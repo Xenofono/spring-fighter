@@ -2,6 +2,7 @@ package com.fighter.demo;
 
 import com.fighter.demo.exception.TournamentEndedException;
 import com.fighter.demo.exception.TournamentNotFoundException;
+import com.fighter.demo.service.FighterService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

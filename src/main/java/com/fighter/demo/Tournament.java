@@ -1,8 +1,6 @@
 package com.fighter.demo;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +11,7 @@ public class Tournament {
     private String id;
     private List<Fighter> allFighters;
     private List<Fighter> fightersRemaining;
+    private int winnerId;
 
     public Tournament(String id, List<Fighter> fightersInTournament) {
         this.id = id;
