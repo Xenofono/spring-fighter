@@ -1,5 +1,6 @@
 package com.fighter.demo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,12 +8,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class Tournament {
 
     private String id;
     private List<Fighter> allFighters;
     private LinkedList<Fighter> fightersRemaining;
-    private int winnerId;
+    private Fighter winner;
 
     public Tournament(String id, List<Fighter> fightersInTournament) {
         this.id = id;
