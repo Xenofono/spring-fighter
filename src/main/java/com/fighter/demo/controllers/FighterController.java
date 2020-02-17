@@ -17,12 +17,12 @@ public class FighterController {
         this.fighterService = fighterService;
     }
 
-    @GetMapping("/")
+    @GetMapping("fighters/")
     public List<Fighter> getAllFighters(){
         return fighterService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("fighters/{id}")
     public Fighter getFighterById(@PathVariable("id") String id){
         return fighterService.findById(id);
     }

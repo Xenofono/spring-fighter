@@ -3,9 +3,9 @@ package com.fighter.demo;
 
 
 import com.fighter.demo.entities.FighterEntity;
+import com.fighter.demo.exception.FighterNotFoundException;
 import com.fighter.demo.repositories.FighterRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
