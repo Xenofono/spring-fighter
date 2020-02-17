@@ -1,4 +1,4 @@
-package com.fighter.demo;
+package com.fighter.demo.exception;
 
 public class FighterNotFoundException extends RuntimeException {
 
