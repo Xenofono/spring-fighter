@@ -2,6 +2,7 @@ package com.fighter.demo.controllers;
 
 import com.fighter.demo.entities.TournamentEntity;
 import com.fighter.demo.models.dto.Fighter;
+import com.fighter.demo.models.dto.FighterMatch;
 import com.fighter.demo.models.dto.Tournament;
 import com.fighter.demo.models.dto.TournamentConverter;
 import com.fighter.demo.models.response.TournamentResponse;
@@ -38,8 +39,13 @@ public class TournamentController {
         return new ResponseEntity<>(tournamentService.getOldTournament(id), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/upcoming")
+    public ResponseEntity<FighterMatch> getNextFight(@PathVariable String id){
+        return new ResponseEntity<>(tournamentService.getNextMatch(id), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}/fight")
-    public ResponseEntity<Fighter> startFight(@PathVariable String id){
+    public ResponseEntity<FighterMatch> startFight(@PathVariable String id){
         return new ResponseEntity<>(tournamentService.fight(id), HttpStatus.OK);
     }
 
