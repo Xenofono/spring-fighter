@@ -18,6 +18,8 @@ public class Tournament {
     private FighterService fighterService;
     private List<Fighter> allFighters;
     private LinkedList<Fighter> fightersRemaining;
+    private List<FighterMatch> fighterMatches;
+    private FighterMatch nextMatch;
     private Consumer<Fighter> fighterLoss = (fighter -> {
         fighter.setLosses((short) (fighter.getLosses()+1));
         fightersRemaining.remove(fighter);
@@ -34,32 +36,66 @@ public class Tournament {
         this.allFighters = new ArrayList<>(fighterService.findAll());
         Collections.shuffle(this.allFighters);
         this.fightersRemaining = new LinkedList<>(allFighters);
+        this.fighterMatches = new ArrayList<>();
+        this.setupMatches();
     }
 
-    public Fighter fight(){
-        Fighter fighter1 = this.fightersRemaining.get(0);
-        Fighter fighter2 = this.fightersRemaining.get(1);
+    private void setupMatches(){
+        for (int i = 0; i < fightersRemaining.size()-1; i=i+2) {
+            FighterMatch fighterMatch = new FighterMatch();
+            fighterMatch.setFighter1(fightersRemaining.get(i));
+            fighterMatch.setFighter2(fightersRemaining.get(i+1));
+            fighterMatch.setFightLog(new ArrayList<>());
+            fighterMatches.add(fighterMatch);
+        }
+        this.nextMatch = fighterMatches.get(0);
+    }
+
+    
+    public FighterMatch fight(){
+        FighterMatch match = this.fighterMatches.get(0);
+        Fighter fighter1 = match.getFighter1();
+        Fighter fighter2 = match.getFighter2();
 
         int hp1 = fighter1.getHealth();
         int hp2 = fighter2.getHealth();
         while(hp1 > 0 && hp2 > 0){
-            hp1 -= (int) (Math.random()*10);
+            final int attackDamage = (int) (Math.random()*10);
+            match.getFightLog().add("Fighter 1 blev slagen för " + attackDamage);
+            hp1 -= attackDamage;
+
+            final int attackDamage2 = (int) (Math.random()*10);
+            match.getFightLog().add("Fighter 2 blev slagen för " + attackDamage2);
             hp2 -= (int) (Math.random()*10);
 
             if(hp1<=0){
                 fighterLoss.accept(fighter1);
+                match.setWinner(fighter2);
             }
             else if(hp2 <=0){
                 fighterLoss.accept(fighter2);
+                match.setWinner(fighter1);
+
             }
         }
 
         //Move winning fighter to back of the list
         fightersRemaining.addLast(fightersRemaining.removeFirst());
         fighterWin.accept(fightersRemaining.getLast());
-        if(fightersRemaining.size() == 1) tournamentOver();
+        FighterMatch matchToReturn = fighterMatches.remove(0);
+        if(fighterMatches.isEmpty()){
+            if(fightersRemaining.size() == 1){
+                tournamentOver();
+            }
+            else{
+                this.setupMatches();
+            }
+        }
+        else{
+            this.nextMatch = fighterMatches.get(0);
+        }
 
-        return fightersRemaining.getLast();
+        return matchToReturn;
     }
 
     private void tournamentOver(){

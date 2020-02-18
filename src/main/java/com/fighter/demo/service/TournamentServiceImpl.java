@@ -1,6 +1,7 @@
 package com.fighter.demo.service;
 
 import com.fighter.demo.models.dto.Fighter;
+import com.fighter.demo.models.dto.FighterMatch;
 import com.fighter.demo.models.dto.Tournament;
 import com.fighter.demo.entities.TournamentEntity;
 import com.fighter.demo.exception.TournamentNotFoundException;
@@ -48,7 +49,7 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public Fighter fight(String id) {
+    public FighterMatch fight(String id) {
         Tournament tournament = Optional.ofNullable(tournamentCache.get(id))
                 .orElseThrow(TournamentNotFoundException::new);
 
@@ -56,12 +57,20 @@ public class TournamentServiceImpl implements TournamentService {
             return tournament.fight();
         }
         else{
-            Fighter winner = tournament.fight();
+            FighterMatch winner = tournament.fight();
             saveTournament(tournament);
             tournamentCache.remove(id);
             System.out.println(winner);
             return winner;
         }
+    }
+
+    @Override
+    public FighterMatch getNextMatch(String id) {
+        Tournament tournament = Optional.ofNullable(tournamentCache.get(id))
+                .orElseThrow(TournamentNotFoundException::new);
+
+        return tournament.getNextMatch();
     }
 
     private void saveTournament(Tournament tournament) {
