@@ -17,7 +17,7 @@ public class Fighter {
 
 
     public void calculateHealth(){
-        this.health = (byte) (100+wins+losses);
+        this.health = (byte) (100+wins-losses);
     }
 
 }
