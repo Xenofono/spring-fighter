@@ -61,11 +61,11 @@ public class Tournament {
         int hp2 = fighter2.getHealth();
         while(hp1 > 0 && hp2 > 0){
             final int attackDamage = (int) (Math.random()*10);
-            match.getFightLog().add("Fighter 1 blev slagen för " + attackDamage);
+            match.getFightLog().add(fighter1.getName()+ " blev slagen för " + attackDamage);
             hp1 -= attackDamage;
 
             final int attackDamage2 = (int) (Math.random()*10);
-            match.getFightLog().add("Fighter 2 blev slagen för " + attackDamage2);
+            match.getFightLog().add(fighter2.getName() + " blev slagen för " + attackDamage2);
             hp2 -= (int) (Math.random()*10);
 
             if(hp1<=0){
