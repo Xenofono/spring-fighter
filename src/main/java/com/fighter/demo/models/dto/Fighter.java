@@ -11,13 +11,13 @@ public class Fighter {
 
     private int id;
     private String name;
-    private byte health;
+    private short health;
     private short wins;
     private short losses;
 
 
     public void calculateHealth(){
-        this.health = (byte) (100+wins-losses);
+        this.health = (short) (100+wins-losses);
     }
 
 }
