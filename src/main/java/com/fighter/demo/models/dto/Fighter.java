@@ -16,6 +16,7 @@ public class Fighter {
     private short losses;
 
 
+
     public void calculateHealth(){
         this.health = (short) (100+wins-losses);
     }

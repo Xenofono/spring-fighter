@@ -19,4 +19,7 @@ public class FighterEntity {
     private String name;
     private short wins;
     private short losses;
+
+    public FighterEntity(int i, String name, int wins, int losses) {
+    }
 }
