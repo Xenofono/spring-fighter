@@ -11,12 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class TournamentServiceImpl implements TournamentService {
 
 
-    private Map<String, Tournament> tournamentCache = new HashMap<>();
+    private Map<String, Tournament> tournamentCache = new ConcurrentHashMap<>();
     private TournamentRepository tournamentRepository;
     private FighterService fighterService;
 

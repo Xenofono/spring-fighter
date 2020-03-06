@@ -3,6 +3,7 @@ package com.fighter.demo.models.dto;
 import com.fighter.demo.service.FighterService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Tournament {
 
@@ -40,7 +42,7 @@ public class Tournament {
         this.setupMatches();
     }
 
-    private void setupMatches(){
+    public void setupMatches(){
         for (int i = 0; i < fightersRemaining.size()-1; i=i+2) {
             FighterMatch fighterMatch = new FighterMatch();
             fighterMatch.setFighter1(fightersRemaining.get(i));

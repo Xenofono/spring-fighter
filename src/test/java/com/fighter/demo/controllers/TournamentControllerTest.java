@@ -23,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -67,7 +68,7 @@ class TournamentControllerTest {
     }
 
     @Test
-    void startNewTournament() throws Exception {
+    void startNewTournamentTest() throws Exception {
         MvcResult result = this.mvc.perform(MockMvcRequestBuilders.get("/new"))
                 .andDo(print())
         .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
@@ -81,12 +82,23 @@ class TournamentControllerTest {
     }
 
     @Test
-    void seeTournament() throws Exception {
-
+    void wrongIdTest() throws Exception{
+        this.mvc.perform(MockMvcRequestBuilders.get("/"+"FaKe"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andReturn();
     }
 
     @Test
-    void getOldTournament() throws Exception {
+    void seeTournamentTest() throws Exception {
+        this.mvc.perform(MockMvcRequestBuilders.get("/"+currentMatchId))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.content().json("{id:" + currentMatchId + "}"))
+                .andReturn();
+    }
+
+    @Test
+    void getOldTournamentTest() throws Exception {
         MvcResult result = this.mvc.perform(MockMvcRequestBuilders.get("/record/"+"futa"))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
@@ -112,7 +124,7 @@ class TournamentControllerTest {
     }
 
     @Test
-    void startFight() throws Exception {
+    void startFightTest() throws Exception {
         this.mvc.perform(MockMvcRequestBuilders.get("/"+currentMatchId+"/fight"))
                 .andDo(print())
                 .andReturn();
@@ -135,5 +147,37 @@ class TournamentControllerTest {
         final TournamentResponse tournament = mapper.readValue(tournamentAfter2Fights.getResponse().getContentAsByteArray(), TournamentResponse.class);
         assertEquals(tournament.getId(), currentMatchId);
         assertEquals(tournament.getFightersRemaining().size(), 6);
+    }
+
+    @Test
+    void entireFightTest() throws Exception{
+
+        FighterMatch match = null;
+        for (int i = 0; i < 7; i++) {
+           MvcResult result = this.mvc.perform(MockMvcRequestBuilders.get("/"+currentMatchId+"/fight"))
+                    .andDo(print())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.fighter1").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.fighter2").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.winner").exists())
+                    .andReturn();
+
+           match =  mapper.readValue(result.getResponse().getContentAsByteArray(), FighterMatch.class);
+        }
+
+        assertNotEquals(null, match);
+
+        this.mvc.perform(MockMvcRequestBuilders.get("/"+currentMatchId+"/fight"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andReturn();
+
+        this.mvc.perform(MockMvcRequestBuilders.get("/record/"+currentMatchId))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.content().json("{id:"+currentMatchId+", winnerId:" + match.getWinner().getId() + "}"))
+                .andReturn();
+
+
+
+
     }
 }

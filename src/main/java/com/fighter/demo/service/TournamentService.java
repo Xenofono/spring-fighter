@@ -1,7 +1,6 @@
 package com.fighter.demo.service;
 
 import com.fighter.demo.entities.TournamentEntity;
-import com.fighter.demo.models.dto.Fighter;
 import com.fighter.demo.models.dto.FighterMatch;
 import com.fighter.demo.models.dto.Tournament;
 
