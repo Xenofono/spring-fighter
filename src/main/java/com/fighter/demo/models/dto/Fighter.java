@@ -14,7 +14,7 @@ public class Fighter {
     private short health;
     private short wins;
     private short losses;
-
+    private double odds;
 
 
     public void calculateHealth(){
