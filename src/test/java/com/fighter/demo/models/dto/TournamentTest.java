@@ -26,12 +26,20 @@ class TournamentTest {
     void setUp(){
         List<Fighter> fighters = new LinkedList<>();
         for (int i = 0; i < 7; i++) {
+
             Fighter fighter = new Fighter();
             fighter.setId(i);
             fighter.setName("fighter"+i);
-            fighter.setHealth((short) 100);
-            fighter.setWins((short) 0);
-            fighter.setLosses((short) 0);
+            if(i < 2){
+                fighter.setWins((short) (10*i));
+                fighter.setLosses((short) (2*i));
+            }
+            else{
+                fighter.setWins((short) (Math.random()*100));
+                fighter.setLosses((short) (Math.random()*100));
+            }
+
+            fighter.calculateHealth();
             fighters.add(fighter);
         }
 
@@ -76,8 +84,16 @@ class TournamentTest {
         assertSame(winner, tournament.getFightersRemaining().getLast());
 
 
+    }
 
-
-
+    @Test
+    void fightOddsTest(){
+        System.out.println(tournament.getNextMatch().getFighter1());
+        System.out.println(tournament.getNextMatch().getFighter2());
+        System.out.println(tournament.getNextMatch().getFighter1().getOdds());
+        Assertions.assertAll(
+                () -> assertEquals(2.08, tournament.getNextMatch().getFighter1().getOdds()),
+                () -> assertEquals(1.93, tournament.getNextMatch().getFighter2().getOdds())
+        );
     }
 }
