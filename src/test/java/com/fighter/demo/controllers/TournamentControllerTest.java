@@ -12,6 +12,8 @@ import com.fighter.demo.service.TournamentService;
 import com.fighter.demo.service.TournamentServiceImpl;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,6 +45,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+@Tag("controllers")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -97,6 +100,7 @@ class TournamentControllerTest {
                 .andReturn();
     }
 
+    @Disabled
     @Test
     void getOldTournamentTest() throws Exception {
         MvcResult result = this.mvc.perform(MockMvcRequestBuilders.get("/record/"+"futa"))

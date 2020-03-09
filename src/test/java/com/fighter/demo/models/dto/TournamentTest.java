@@ -5,6 +5,7 @@ import com.fighter.demo.repositories.FighterRepository;
 import com.fighter.demo.service.FighterService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -14,6 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+@Tag("entity")
 class TournamentTest {
 
     private Tournament tournament;
@@ -25,7 +28,7 @@ class TournamentTest {
     @BeforeEach
     void setUp(){
         List<Fighter> fighters = new LinkedList<>();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
 
             Fighter fighter = new Fighter();
             fighter.setId(i);
@@ -64,6 +67,11 @@ class TournamentTest {
 
     @Test
     void getFightersRemaining() {
+        assertEquals(8, tournament.getFightersRemaining().size());
+        tournament.fight();
+        tournament.fight();
+        tournament.fight();
+        assertEquals(5, tournament.getFightersRemaining().size());
     }
 
     @Test
