@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service layer exists between the controller and the repository, it applies logic to the data before retrieving as well as error handling
+ * @author Kristoffer Näsström
+ */
 @Service
 public class FighterServiceImpl implements FighterService {
 
@@ -22,6 +26,7 @@ public class FighterServiceImpl implements FighterService {
         this.fighterRepository = fighterRepository;
     }
 
+    //Retrieves all fighters in repository
     @Override
     public List<Fighter> findAll() {
         List<FighterEntity> fighterEntities = fighterRepository.findAll();
@@ -29,6 +34,7 @@ public class FighterServiceImpl implements FighterService {
                 .collect(Collectors.toList());
     }
 
+    //Retrieves specific fighter by id or else throws custom FighterNotFoundException which returns error
     public Fighter findById(String id){
         int convertedId = stringIdToInt(id);
         return fighterRepository.findById(convertedId)
@@ -43,13 +49,14 @@ public class FighterServiceImpl implements FighterService {
         fighterRepository.save(entityToUpdate);
     }
 
+    //helper method that transforms FighterEntity from the database to a Fighter
     private Fighter entityToFighter(FighterEntity entity){
         Fighter fighter = new Fighter();
         BeanUtils.copyProperties(entity, fighter);
         fighter.calculateHealth();
         return fighter;
     }
-
+    //helper method that transforms Fighter to database FighterEntity
     private FighterEntity fighterToEntity(Fighter fighter){
         FighterEntity entity = new FighterEntity();
         BeanUtils.copyProperties(fighter, entity);

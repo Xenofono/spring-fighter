@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Class contains routes for controlling fighters, currently not used in live environment
+ * @author Kristoffer Näsström
+ */
 @RestController
 public class FighterController {
 

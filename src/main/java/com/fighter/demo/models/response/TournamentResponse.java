@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class only exists to function as a JSON-response to queries about tournaments. it removes unnecessary fields.
+ * @author Kristoffer Näsström
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

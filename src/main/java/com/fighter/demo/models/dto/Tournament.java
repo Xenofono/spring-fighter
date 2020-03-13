@@ -13,6 +13,13 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+
+/**
+ * class retrieves fighters from database and constructs a randomized tournament. It also calculates the odds
+ * of each fighter winning which is used to calculate the betting sums in the frontend
+ *
+ * @author Kristoffer Näsström
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -59,6 +66,7 @@ public class Tournament {
         }
         this.nextMatch = fighterMatches.get(0);
     }
+
     /*
             calculates odds by dividing fighters healths with each other and adding 1 double
             double is then passed to roundDouble which rounds it to 2 decimals.
@@ -86,6 +94,8 @@ public class Tournament {
         Fighter fighter1 = match.getFighter1();
         Fighter fighter2 = match.getFighter2();
 
+
+
         int hp1 = fighter1.getHealth();
         int hp2 = fighter2.getHealth();
         while (hp1 > 0 && hp2 > 0) {
@@ -111,6 +121,11 @@ public class Tournament {
         fightersRemaining.addLast(fightersRemaining.removeFirst());
         fighterWin.accept(fightersRemaining.getLast());
         FighterMatch matchToReturn = fighterMatches.remove(0);
+
+        /*
+        end tournament if there's only one fighter left, otherwise rerun setupMatches with remaining fighters
+        otherwise set nextMatch to the first match in the list
+         */
         if (fighterMatches.isEmpty()) {
             if (fightersRemaining.size() == 1) {
                 tournamentOver();
@@ -128,6 +143,7 @@ public class Tournament {
         System.out.println("TOURNAMENT OVER, WINNER IS: " + fightersRemaining.get(0));
     }
 
+    //generate a randomized 4 char id
     public static String randomId() {
         StringBuilder id = new StringBuilder();
 

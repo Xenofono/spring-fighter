@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+
+/**
+ * Class is used as JSON-response to activating the next fight
+ * @author Kristoffer Näsström
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

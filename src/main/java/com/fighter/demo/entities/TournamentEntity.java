@@ -9,6 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+/**
+ * Database entity representation of a tournament
+ * @author Kristoffer Näsström
+ */
 @Entity
 @Table(name = "Tournaments")
 @Data

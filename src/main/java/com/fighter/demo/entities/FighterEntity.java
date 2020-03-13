@@ -8,6 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+/**
+ * Database entity representation of a fighter
+ * @author Kristoffer Näsström
+ */
 @Entity
 @Table(name = "Fighters")
 @Data

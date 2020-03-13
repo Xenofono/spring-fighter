@@ -16,7 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class TournamentServiceImpl implements TournamentService {
 
-
+    //tournamentCash holds all running tournaments, tournamentId is the key
+    //Cache is implemented in a thread safe ConcurrentHashMap so multiple threads can mutate the state of the map without race conditions
     private Map<String, Tournament> tournamentCache = new ConcurrentHashMap<>();
     private TournamentRepository tournamentRepository;
     private FighterService fighterService;
@@ -26,6 +27,7 @@ public class TournamentServiceImpl implements TournamentService {
         this.fighterService = fighterService;
     }
 
+    //Creates new tournament, while the id already exists in cache or database the loop continues trying new IDs
     @Override
     public Tournament newTournament() {
         String newId = Tournament.randomId();
@@ -37,18 +39,25 @@ public class TournamentServiceImpl implements TournamentService {
         return newTournament;
     }
 
+    //Retrieve tournament by id or else throw custom TournamentNotFoundException
     @Override
     public Tournament tournamentStatus(String id) {
         return Optional.ofNullable(tournamentCache.get(id))
                 .orElseThrow(TournamentNotFoundException::new);
     }
 
+    //Retrieve finished tournament by id or else throw custom TournamentNotFoundException
     @Override
     public TournamentEntity getOldTournament(String id) {
         return tournamentRepository.findById(id)
                 .orElseThrow(TournamentNotFoundException::new);
     }
 
+    /*
+    Retrieve tournament by id or else throw custom TournamentNotFoundException
+    then activates the next fight if there's more than 2 fighters left, otherwise the winner is the remaining
+    fighter after the next fight
+     */
     @Override
     public FighterMatch fight(String id) {
         Tournament tournament = Optional.ofNullable(tournamentCache.get(id))
@@ -66,6 +75,10 @@ public class TournamentServiceImpl implements TournamentService {
         }
     }
 
+    /*
+    Retrieve tournament by id or else throw custom TournamentNotFoundException
+    then return the nextMatch variable
+     */
     @Override
     public FighterMatch getNextMatch(String id) {
         Tournament tournament = Optional.ofNullable(tournamentCache.get(id))
@@ -74,6 +87,7 @@ public class TournamentServiceImpl implements TournamentService {
         return tournament.getNextMatch();
     }
 
+    //When tournament is finished, this method saves it to the database along with the winners id
     private void saveTournament(Tournament tournament) {
         System.out.println("Saving");
         TournamentEntity entity = new TournamentEntity();
